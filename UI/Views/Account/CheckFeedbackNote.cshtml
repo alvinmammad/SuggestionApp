@@ -1,0 +1,159 @@
+﻿@model UserFeedback
+@{
+    ViewData["Title"] = "CheckFeedbackNote";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="post d-flex flex-column-fluid" id="kt_post">
+  
+    <div id="kt_content_container" class="container-xxl">
+       
+        <div class="d-flex flex-column flex-xl-row" style="justify-content: center;">
+            <div class="flex-column flex-lg-row-auto w-100 w-xl-600px mb-10">
+                <div class="card mb-5 mb-xl-8">
+                    <div class="card-body">
+                       
+                        <div class="d-flex flex-center flex-column py-5">
+                          
+                            @if (Model.Feedback.FeedbackFile != null)
+                            {
+                                <div class="symbol symbol-100px symbol-circle mb-7">
+                                    <img src="~/img/@Model.Feedback.FeedbackFile" alt="image">
+                                </div>
+                            }
+
+                          
+                            <span href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-3">@Model.Feedback.FeedbackCategory.CategoryName</span>
+                          
+                            <div class="mb-9">
+                              
+                                <div class="badge badge-lg badge-light-primary d-inline">Müştəri feedback`i</div>
+                               
+                            </div>
+                          
+                        </div>
+                       
+                        <div class="d-flex flex-stack fs-4 py-3">
+                            <div class="fw-bolder rotate collapsible" data-bs-toggle="collapse" href="#kt_user_view_details" role="button" aria-expanded="true" aria-controls="kt_user_view_details">
+                                Detallı
+                                <span class="ms-2 rotate-180">
+                                    <span class="svg-icon svg-icon-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="black"></path>
+                                        </svg>
+                                    </span>
+                                   
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="separator"></div>
+
+                        <div id="kt_user_view_details" class="collapse show" style="">
+                            <div class="pb-5 fs-6">
+
+                                <div class="fw-bolder mt-5 text-primary">Müştəri ID</div>
+                                <div class="text-gray-800 fw-normal mb-5">ID - @Model.Feedback.ID</div>
+
+                                <div class="fw-bolder mt-5 text-primary">Ad soyad</div>
+                                <div class="text-gray-800 fw-normal mb-5">@Model.Feedback.CustomerName @Model.Feedback.CustomerSurname</div>
+
+                                <div class="fw-bolder mt-5 text-primary">E-poçt adresi</div>
+                                <div class="text-gray-800 fw-normal mb-5">@Model.Feedback.CustomerEmail</div>
+
+                                <div class="fw-bolder mt-5 text-primary">Tarix</div>
+                                <div class="text-gray-800 fw-normal mb-5">@Model.Feedback.CreatedDate</div>
+
+                                <div class="fw-bolder mt-5 text-primary">Feedback statusu</div>
+                                <div class="text-gray-800 fw-normal mb-5 badge badge-lg badge-light">@Model.Feedback.FeedbackStatus</div>
+
+                                <div class="fw-bolder mt-5 text-primary">Feedback</div>
+                                <div class="text-gray-800 fw-normal mb-5">@Model.Feedback.FeedbackDesc</div>
+                                <hr />
+                                @if (Model.SecretaryNote != null)
+                                {
+                                    <div class="fw-bolder mt-5 text-primary">@Model.Feedback.FeedbackCategory.Department.DepName HR feedbacki</div>
+                                    <div class="text-gray-800 fw-normal mb-5">@Model.HRNote</div>
+                                }
+
+
+
+                            <div class="text-center">
+                                @if (Model.Feedback.EmailStatus != true)
+                                {
+                                    <a style="background :#0171C7" href="/account/SendFeedbackToCustomer/@Model.FeedbackID" class="btn btn-primary er fs-6 px-8 py-4 ">Müştəriyə göndər</a>
+                                }
+                                <a href="#" style="color:black" class="btn btn-warning er fs-6 px-8 py-4" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">Geri feedback</a>
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" style="display: none;" aria-hidden="true">
+       
+        <div class="modal-dialog mw-650px">
+           
+            <div class="modal-content">
+               
+                <div class="modal-header pb-0 border-0 justify-content-end">
+                    
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <span class="svg-icon svg-icon-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
+                            </svg>
+                        </span>
+                       
+                    </div>
+                   
+                </div>
+               
+                <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+                   
+                    <div class="text-center mb-13">
+                       
+                        <h1 class="mb-3">Geri feedback</h1>
+                      
+                        <div class="text-muted fw-bold fs-5">
+                           Əgər bu notda hər hansı bir səhvlik , anlaşılmazlıq aşkar etmişsinizsə , bu form vasitəsi ilə müvafiq şöbənin HR-ına geri not göndərə bilərsiniz . Əks halda boş buraxın və feedbacki müştəriyə geri göndərin.
+                        </div>
+                       
+                    </div>
+                    <form asp-controller="Account" asp-action="CheckFeedbackNote" method="post">
+                        <div class="d-flex flex-column mb-8">
+                            <label class="fs-6 fw-bold mb-2">Katib notu</label>
+                            <textarea class="form-control form-control-solid" rows="3" name="SecretaryNote" placeholder="Notu bura yazın..."></textarea>
+                        </div>
+                        <input type="hidden" name="FeedbackStatus" value="@Model.Feedback.FeedbackStatus" />
+                        <div class="text-center">
+                            <input type="hidden" name="FeedbackID" value="@Model.Feedback.ID" />
+
+                            <button type="submit" class="btn btn-primary">
+                                <span class="indicator-label">Göndər</span>
+
+                            </button>
+
+                        </div>
+                    </form>
+
+
+                </div>
+              
+            </div>
+            
+        </div>
+        
+    </div>
+
+</div>
+

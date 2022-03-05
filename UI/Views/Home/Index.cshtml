@@ -1,0 +1,67 @@
+﻿@model Entity.Feedback
+@{
+    ViewData["Title"] = "Complaint Page";
+}
+<section id="complaint-form">
+    <div class="wrapper">
+        <div class="texts">
+            <h2>Təklif və şikayətlər</h2>
+            <small>Bankımıza dair hər hansı təklif və ya müraciətiniz varsa aşağıdakı formanı doldurmaqla bizə məktub göndərə bilərsiniz.</small>
+        </div>
+        @if (TempData["Success"] != null)
+        {
+
+            <div class="alert alert-success">
+                @TempData["Success"]
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        }
+
+        <form asp-controller="Home" asp-action="Index" method="post" id="complaint-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="text" placeholder="Ad" id="customer-name" name="CustomerName" class="form-control">
+                @Html.ValidationMessageFor(x => x.CustomerName)
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Soyad" id="customer-surname" name="CustomerSurname" class="form-control">
+                @Html.ValidationMessageFor(x => x.CustomerSurname)
+
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="E-mail ünvanı" id="customer-email" name="CustomerEmail" class="form-control">
+                @Html.ValidationMessageFor(x => x.CustomerEmail)
+
+            </div>
+
+            <div class="form-group">
+                @Html.DropDownListFor(x => x.FeedbackCategoryID, (List<SelectListItem>)ViewBag.category, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.FeedbackCategoryID)
+
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" asp-for="FeedbackFile"/>
+                <label for="customer-file">Müraciətin faylı (məcburi deyil)</label>
+               
+                <input type="file" class="form-control-file" name="file" id="customer-file">
+            </div>
+
+
+            <div class="form-group">
+                <label for="customer-desc">Müraciətiniz :</label>
+                <textarea class="form-control" id="customer-desc" name="FeedbackDesc" rows="3" placeholder="Müraciətiniz"></textarea>
+                @Html.ValidationMessageFor(x => x.FeedbackDesc)
+
+            </div>
+
+            <div class="form-group button">
+                <button type="Submit" value="Göndər" id="submit-btn" class="btn btn-primary">Göndər</button>
+            </div>
+
+        </form>
+    </div>
+   
+</section>
+

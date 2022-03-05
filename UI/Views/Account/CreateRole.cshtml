@@ -1,0 +1,35 @@
+﻿@model RoleVM
+@{
+    ViewData["Title"] = "CreateRole";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+    <div class="card-body p-9">
+        <form asp-controller="Account" asp-action="CreateRole" method="POST">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row mb-8">
+
+                <div class="col-xl-2">
+                    <div class="fs-6 fw-bold mt-2 mb-3">Vəzifə adı</div>
+                </div>
+
+                <div class="col-xl-4 fv-row fv-plugins-icon-container">
+                    <input type="text" class="form-control form-control-solid" asp-for="Name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+
+                </div>
+            </div>
+
+            <div class="row mb-8">
+                <div class="col-xl-9 fv-row fv-plugins-icon-container">
+                    <button type="submit" class="btn btn-primary">Yarat</button>
+
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+
+

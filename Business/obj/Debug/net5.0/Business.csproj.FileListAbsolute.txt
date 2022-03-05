@@ -1,0 +1,17 @@
+C:\Users\Elvin\source\repos\ComplaintModule\Business\bin\Debug\net5.0\Business.deps.json
+C:\Users\Elvin\source\repos\ComplaintModule\Business\bin\Debug\net5.0\Business.dll
+C:\Users\Elvin\source\repos\ComplaintModule\Business\bin\Debug\net5.0\ref\Business.dll
+C:\Users\Elvin\source\repos\ComplaintModule\Business\bin\Debug\net5.0\Business.pdb
+C:\Users\Elvin\source\repos\ComplaintModule\Business\bin\Debug\net5.0\DAL.dll
+C:\Users\Elvin\source\repos\ComplaintModule\Business\bin\Debug\net5.0\Entity.dll
+C:\Users\Elvin\source\repos\ComplaintModule\Business\bin\Debug\net5.0\DAL.pdb
+C:\Users\Elvin\source\repos\ComplaintModule\Business\bin\Debug\net5.0\Entity.pdb
+C:\Users\Elvin\source\repos\ComplaintModule\Business\obj\Debug\net5.0\Business.csproj.AssemblyReference.cache
+C:\Users\Elvin\source\repos\ComplaintModule\Business\obj\Debug\net5.0\Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Elvin\source\repos\ComplaintModule\Business\obj\Debug\net5.0\Business.AssemblyInfoInputs.cache
+C:\Users\Elvin\source\repos\ComplaintModule\Business\obj\Debug\net5.0\Business.AssemblyInfo.cs
+C:\Users\Elvin\source\repos\ComplaintModule\Business\obj\Debug\net5.0\Business.csproj.CoreCompileInputs.cache
+C:\Users\Elvin\source\repos\ComplaintModule\Business\obj\Debug\net5.0\Business.csproj.CopyComplete
+C:\Users\Elvin\source\repos\ComplaintModule\Business\obj\Debug\net5.0\Business.dll
+C:\Users\Elvin\source\repos\ComplaintModule\Business\obj\Debug\net5.0\ref\Business.dll
+C:\Users\Elvin\source\repos\ComplaintModule\Business\obj\Debug\net5.0\Business.pdb

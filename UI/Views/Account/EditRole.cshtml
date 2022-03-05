@@ -1,0 +1,142 @@
+﻿@model RoleDetails
+@{
+    ViewData["Title"] = "EditRole";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <div id="kt_content_container" class="container-xxl">
+        <form asp-controller="Account" asp-action="EditRole">
+            <input type="hidden" name="RoleID" value="@Model.Role.Id">
+            <input type="hidden" name="RoleName" value="@Model.Role.Name">
+            
+            <div class="card">
+                
+                <div class="card-header border-0 pt-6">
+                   
+                    <div class="card-title">
+                        
+                        <h2 class=" text-white p-1">@Model.Role.Name roluna əlavə et</h2>                    <!--end::Search-->
+                    </div>
+
+                </div>
+                
+                <div class="card-body pt-0">
+                 
+                   
+                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_subscriptions_table secretary-table">
+                        @if (Model.NonMembers.Count() == 0)
+                        {
+                            <tr>
+                                <td colspan="2">Bütün istifadəçilər bu rola aiddir</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <thead>
+                               
+                                <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+                                    <th class="min-w-125px">ID</th>
+                                    <th class="min-w-125px">İSTİFADƏÇİ ADI</th>
+                                    <th class="min-w-125px">SEÇ</th>
+                                </tr>
+                              
+                            </thead>
+                            <tbody class="text-gray-600 fw-bold">
+                                @foreach (var user in Model.NonMembers)
+                                {
+                                    <tr>
+                                        <td style="font-weight:bold;" class="text-gray-800 text-hover-primary mb-1">@user.Id</td>
+                                        <td class="text-gray-800 text-hover-primary mb-1">@user.UserName</td>
+                                        <td>
+                                            <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                                <input name="IDsToAdd" value="@user.Id" class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="" value="1">
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                }
+                            </tbody>
+
+                        }
+                    </table>
+                    
+                </div>
+                
+            </div>
+
+            <div style="margin-top:50px;" class="card">
+                
+                <div class="card-header border-0 pt-6">
+                   
+                    <div class="card-title">
+                      
+                        <h2 class=" text-white p-1">@Model.Role.Name rolundan sil</h2>                    <!--end::Search-->
+                    </div>
+
+                </div>
+               
+                <div class="card-body pt-0">
+
+                  
+                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_subscriptions_table secretary-table">
+                        @if (Model.Members.Count() == 0)
+                        {
+                            <tr>
+                                <td colspan="2">Bu rola aid istifadəçi yoxdur</td>
+                            </tr>
+                        }
+                        else
+                        {
+                    <thead>
+                      
+                        <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+                            <th class="min-w-125px">ID</th>
+                            <th class="min-w-125px">İSTİFADƏÇİ ADI</th>
+                            <th class="min-w-125px">SEÇ</th>
+                        </tr>
+                       
+                    </thead>
+                            <tbody class="text-gray-600 fw-bold">
+                                @foreach (var user in Model.Members)
+                                {
+                                    <tr>
+                                        <td style="font-weight:bold;" class="text-gray-800 text-hover-primary mb-1">@user.Id</td>
+                                        <td class="text-gray-800 text-hover-primary mb-1">@user.UserName</td>
+                                        <td>
+                                            <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                                <input name="IDsToDelete" value="@user.Id" class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="" value="1">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        }
+                    </table>
+                   
+                </div>
+                
+            </div>
+            
+            <div style="margin-top:50px;margin-bottom:50px;" class="card">
+                <div class="card-footer text-center">
+                    <button type="submit" class="btn btn-primary">Düzəliş et</button>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+   
+</div>
+
+
+@section AdminScripts{
+
+    <script type="text/javascript">
+        $("#close-btn").click(function () {
+            $("#temp-message").remove();
+        })
+    </script>
+}
