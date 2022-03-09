@@ -8,13 +8,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Concrete.EFCore
 {
-    public class EFCoreDepartmentRepository:EFCoreGenericRepository<Department,BankDBContext>,IDepartmentRepository
+    public class EFCoreDepartmentRepository : EFCoreGenericRepository<Department, BankDBContext>, IDepartmentRepository
     {
-        //private readonly BankDBContext _context;
-        //public EFCoreDepartmentRepository(BankDBContext context)
-        //    :base(context)
-        //{
-        //    this._context = context;
-        //}
+        
     }
 }

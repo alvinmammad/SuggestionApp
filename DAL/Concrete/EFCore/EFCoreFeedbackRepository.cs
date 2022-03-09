@@ -32,8 +32,6 @@ namespace DAL.Concrete.EFCore
             secretaryFeedback.SecretaryNote = secretaryNote;
             secretaryFeedback.HRNote = secretaryFeedback.HRNote;
             secretaryFeedback.Feedback.CreatedDate = DateTime.Now;
-            //c.Feedbacks.Update(secretaryFeedback.Feedback);
-            //c.SaveChanges();
             return secretaryFeedback;
         }
 
@@ -82,6 +80,12 @@ namespace DAL.Concrete.EFCore
                  .Any(ur => ur.RoleId == 3))
                  .FirstOrDefault();
             return user;
+        }
+
+        public List<Department> GetUserDepartmentsList()
+        {
+            using var c = new BankDBContext();
+            return c.Departments.ToList();
         }
 
         public UserFeedback HRFeedbackDetails(string HRNote, int FeedbackID,int currentUserID)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -34,7 +35,11 @@ namespace UI.Models
         [Compare("Password")]
         public string RePassword { get; set; }
 
+       public int ID { get; set; }
+        public int Id { get; set; }
 
-        
+        //public List<Department> Departments { get; set; } 
+
+
     }
 }

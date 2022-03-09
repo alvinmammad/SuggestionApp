@@ -1,0 +1,44 @@
+﻿@model FeedbackCategories
+@{
+    ViewData["Title"] = "UpdateCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-body p-9">
+    <form asp-controller="Account" asp-action="UpdateCategory" method="POST">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input type="hidden" name="ID" value="@Model.ID" />
+        <div class="row mb-8">
+
+            <div class="col-xl-2">
+                <div class="fs-6 fw-bold mt-2 mb-3">Kateqoriya adı</div>
+            </div>
+
+            <div class="col-xl-4 fv-row fv-plugins-icon-container">
+                <input type="text" class="form-control form-control-solid" asp-for="CategoryName" value="@Model.CategoryName">
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+
+            </div>
+        </div>
+
+        <div class="row mb-8">
+            <div class="col-xl-2">
+                <div class="fs-6 fw-bold mt-2 mb-3">Aid olduğu şöbə</div>
+            </div>
+            <div class="col-xl-4 fv-row fv-plugins-icon-container">
+                <select asp-for="DepartmentID" class="form-control" asp-items="ViewBag.DepartmentID"></select>
+                <span asp-validation-for="DepartmentID" class="text-danger"></span>
+
+            </div>
+        </div>
+
+        <div class="row mb-8">
+            <div class="col-xl-9 fv-row fv-plugins-icon-container">
+                <button type="submit" class="btn btn-primary">Dəyiş</button>
+
+            </div>
+        </div>
+    </form>
+
+
+</div>

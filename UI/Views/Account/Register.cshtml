@@ -1,4 +1,5 @@
 ﻿@model RegisterVM
+@*@model AppUser*@
 
 <!DOCTYPE html>
 
@@ -39,69 +40,80 @@
                     <form class="form w-100" id="kt_sign_up_form" asp-controller="Account" asp-action="Register" method="post">
                         <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="mb-10 text-center">
-                           
-                            <h1 class="text-dark mb-3">Create an Account</h1>
-                          
+
+                            <h1 class="text-dark mb-3">İstifadəçi yarat</h1>
+
                             <div class="text-gray-400 fw-bold fs-4">
-                                Already have an account?
-                                <a asp-action="Login" class="link-primary fw-bolder">Sign in</a>
+                                Hesabınız var?
+                                <a asp-action="Login" class="link-primary fw-bolder">Daxil ol</a>
                             </div>
                         </div>
 
                         <div class="row fv-row mb-7">
                             <div class="col-xl-6">
-                                <label class="form-label fw-bolder text-dark fs-6">Adınız</label>
+                                <label class="form-label fw-bolder text-dark fs-6">Ad</label>
                                 <input class="form-control form-control-lg form-control-solid" type="text" placeholder="" asp-for="FirstName" autocomplete="off" />
                             </div>
-                          
+
                             <div class="col-xl-6">
-                                <label class="form-label fw-bolder text-dark fs-6">Last Name</label>
+                                <label class="form-label fw-bolder text-dark fs-6">Soyad</label>
                                 <input class="form-control form-control-lg form-control-solid" type="text" placeholder="" asp-for="Surname" autocomplete="off" />
                             </div>
-                           
+
                         </div>
-                       
+
                         <div class="fv-row mb-7">
-                            <label class="form-label fw-bolder text-dark fs-6">Email</label>
+                            <label class="form-label fw-bolder text-dark fs-6">E/poçt</label>
                             <input class="form-control form-control-lg form-control-solid" type="email" placeholder="" asp-for="Email" autocomplete="off" />
                         </div>
                         <div class="fv-row mb-7">
-                            <label class="form-label fw-bolder text-dark fs-6">Username</label>
+                            <label class="form-label fw-bolder text-dark fs-6">İstifadəçi adı</label>
                             <input class="form-control form-control-lg form-control-solid" type="text" placeholder="" asp-for="UserName" autocomplete="off" />
                         </div>
-                      
+                        <div class="fv-row mb-7">
+                            <label class="form-label fw-bolder text-dark fs-6">Şöbə</label>
+                            <select asp-for="ID" class="form-control form-control-lg form-control-solid" asp-items="@ViewBag.DepartmentID">
+                            </select>
+                        </div>
+                        <div class="fv-row mb-7">
+                            <label class="form-label fw-bolder text-dark fs-6">Vəzifə</label>
+                            <select asp-for="Id" class="form-control form-control-lg form-control-solid" asp-items="@ViewBag.RoleList">
+                            </select>
+                        </div>
+
+
+
                         <div class="mb-10 fv-row" data-kt-password-meter="true">
-                           
+
                             <div class="mb-1">
-                              
-                                <label class="form-label fw-bolder text-dark fs-6">Password</label>
-                              
+
+                                <label class="form-label fw-bolder text-dark fs-6">Şifrə</label>
+
                                 <div class="position-relative mb-3">
                                     <input class="form-control form-control-lg form-control-solid" type="password" placeholder="" asp-for="Password" autocomplete="off" />
 
                                 </div>
 
-                             
 
                             </div>
-                         
+
                         </div>
-                     
+
                         <div class="fv-row mb-5">
-                            <label class="form-label fw-bolder text-dark fs-6">Confirm Password</label>
+                            <label class="form-label fw-bolder text-dark fs-6">Təkrar şifrə</label>
                             <input class="form-control form-control-lg form-control-solid" type="password" placeholder="" asp-for="RePassword" autocomplete="off" />
                         </div>
-                      
+
                         <div class="text-center">
                             <button type="submit" id="kt_sign_up_submit" class="btn btn-lg btn-primary">
-                                <span class="indicator-label">Submit</span>
+                                <span class="indicator-label">Yarat</span>
                                 <span class="indicator-progress">
                                     Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
                         </div>
-                       
+
                     </form>
                   
                 </div>

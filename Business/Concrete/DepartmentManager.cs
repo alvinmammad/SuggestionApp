@@ -16,29 +16,31 @@ namespace Business.Concrete
         {
             this._departmentRepository = departmentRepository;
         }
-        public void Create(Department t)
+        public Department Create(Department t)
         {
-            throw new NotImplementedException();
+            return _departmentRepository.Create(t);
         }
 
-        public void Delete(Department t)
+        public Department Delete(Department t)
         {
-            throw new NotImplementedException();
+            return _departmentRepository.Delete(t);
         }
 
         public List<Department> GetAll()
         {
-            throw new NotImplementedException();
+            return _departmentRepository.GetAll();
         }
 
         public Department GetByID(int id)
         {
-            throw new NotImplementedException();
+            return _departmentRepository.GetByID(id);
         }
 
-        public void Update(Department t)
+        public Department Update(Department t)
         {
-            throw new NotImplementedException();
+            return _departmentRepository.Update(t);
         }
+
+      
     }
 }

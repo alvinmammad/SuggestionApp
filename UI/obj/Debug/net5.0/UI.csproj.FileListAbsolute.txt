@@ -169,3 +169,10 @@ C:\Users\Elvin\source\repos\ComplaintModule\UI\obj\Debug\net5.0\Razor\Views\Acco
 C:\Users\Elvin\source\repos\ComplaintModule\UI\obj\Debug\net5.0\Razor\Views\Account\HRFeedbackList.cshtml.g.cs
 C:\Users\Elvin\source\repos\ComplaintModule\UI\obj\Debug\net5.0\Razor\Views\Account\HRFeedbackDetails.cshtml.g.cs
 C:\Users\Elvin\source\repos\ComplaintModule\UI\obj\Debug\net5.0\Razor\Views\Account\CheckFeedbackNote.cshtml.g.cs
+C:\Users\Elvin\source\repos\ComplaintModule\UI\obj\Debug\net5.0\Razor\Views\Account\UserList.cshtml.g.cs
+C:\Users\Elvin\source\repos\ComplaintModule\UI\obj\Debug\net5.0\Razor\Views\Account\DepartmentList.cshtml.g.cs
+C:\Users\Elvin\source\repos\ComplaintModule\UI\obj\Debug\net5.0\Razor\Views\Account\CreateDepartment.cshtml.g.cs
+C:\Users\Elvin\source\repos\ComplaintModule\UI\obj\Debug\net5.0\Razor\Views\Account\UpdateDepartment.cshtml.g.cs
+C:\Users\Elvin\source\repos\ComplaintModule\UI\obj\Debug\net5.0\Razor\Views\Account\CategoryList.cshtml.g.cs
+C:\Users\Elvin\source\repos\ComplaintModule\UI\obj\Debug\net5.0\Razor\Views\Account\CreateCategory.cshtml.g.cs
+C:\Users\Elvin\source\repos\ComplaintModule\UI\obj\Debug\net5.0\Razor\Views\Account\UpdateCategory.cshtml.g.cs

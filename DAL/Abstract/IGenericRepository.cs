@@ -10,8 +10,8 @@ namespace DAL.Abstract
     {
         T GetByID(int id);
         List<T> GetAll();
-        void Create(T t);
-        void Update(T t);
-        void Delete(T t);
+        T Create(T t);
+        T Update(T t);
+        T Delete(T t);
     }
 }

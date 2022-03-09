@@ -9,5 +9,7 @@ namespace DAL.Abstract
 {
     public interface IFeedbackCategoryRepository:IGenericRepository<FeedbackCategories>
     {
+        FeedbackCategories GetCategory(int id);
+        List<FeedbackCategories> GetCategories();
     }
 }

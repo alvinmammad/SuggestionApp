@@ -68,6 +68,11 @@ namespace Business.Concrete
             return _feedbackRepository.GetHRRole(id);
         }
 
+        public List<Department> GetUserWithDepartments()
+        {
+            return _feedbackRepository.GetUserDepartmentsList();
+        }
+
         public UserFeedback HRFeedbackDetails(string HRNote, int FeedbackID, int currentUserID)
         {
             return _feedbackRepository.HRFeedbackDetails(HRNote, FeedbackID, currentUserID);

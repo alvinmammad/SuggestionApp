@@ -17,21 +17,23 @@ namespace DAL.Concrete.EFCore
         //{
         //    _context = context;
         //}
-        public void Create(TEntity t)
+        public TEntity Create(TEntity t)
         {
             using (var context = new TContext())
             {
                 context.Set<TEntity>().Add(t);
                 context.SaveChanges();
+                return t;
             }
         }
 
-        public void Delete(TEntity t)
+        public TEntity Delete(TEntity t)
         {
             using (var context = new TContext())
             {
                 context.Set<TEntity>().Remove(t);
                 context.SaveChanges();
+                return t;
             }
         }
 
@@ -51,13 +53,30 @@ namespace DAL.Concrete.EFCore
             }
         }
 
-        public void Update(TEntity t)
+        public TEntity Update(TEntity t)
         {
             using (var context = new TContext())
             {
+                context.Set<TEntity>().Attach(t);
                 context.Entry(t).State = EntityState.Modified;
                 context.SaveChanges();
+                return t;
             }
         }
+
+        //TEntity IGenericRepository<TEntity>.Create(TEntity t)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //TEntity IGenericRepository<TEntity>.Delete(TEntity t)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //TEntity IGenericRepository<TEntity>.Update(TEntity t)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

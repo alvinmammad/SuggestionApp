@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using UI.Models;
 using UI.EmailService;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace UI.Controllers
 {
@@ -24,6 +25,9 @@ namespace UI.Controllers
     {
        
         private IFeedbackService _feedbackService;
+        private IUserService _userService;
+        private IDepartmentService _departmentService;
+        private IFeedbackCategoryService _feedbackCategoryService;
         private readonly BankDBContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
@@ -33,6 +37,9 @@ namespace UI.Controllers
                                 SignInManager<AppUser> signInManager,
                                 RoleManager<AppRole> roleManager,
                                 IFeedbackService feedbackService,
+                                IUserService userService,
+                                IDepartmentService departmentService,
+                                IFeedbackCategoryService feedbackCategoryService,
                                 BankDBContext context,
                                 IEmailSender emailSender)
         {
@@ -42,6 +49,9 @@ namespace UI.Controllers
             this._feedbackService = feedbackService;
             this._context = context;
             this._emailSender = emailSender;
+            this._userService = userService;
+            this._departmentService = departmentService;
+            this._feedbackCategoryService = feedbackCategoryService;
         }
         public int GetCurrentUserID(string userIdentityName)
         {
@@ -249,6 +259,7 @@ namespace UI.Controllers
             {
                 return Redirect(vm.ReturnURL ?? "~/Account/Index");
             }
+            
             ModelState.AddModelError("", "İstifadəçi adı və ya şifrə yanlışdır.");
             return View(vm);
 
@@ -256,36 +267,55 @@ namespace UI.Controllers
         #endregion
         #region Sign Up
         [HttpGet]
+        [Authorize(Roles ="Admin")]
         public IActionResult Register()
         {
+            ViewData["DepartmentID"] = new SelectList(_feedbackService.GetUserWithDepartments(), "ID", "DepName");
+            ViewData["RoleList"] = new SelectList(_roleManager.Roles, "Id", "Name");
             return View();
         }
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(RegisterVM vm)
         {
+           
             if (!ModelState.IsValid)
             {
+                ViewData["DepartmentID"] = new SelectList(_feedbackService.GetUserWithDepartments(), "ID", "DepName");
+                ViewData["RoleList"] = new SelectList(_roleManager.Roles, "Id", "Name");
                 return View(vm);
             }
+
             var user = new AppUser()
             {
                 FirstName = vm.FirstName,
                 Surname = vm.Surname,
                 UserName = vm.UserName,
                 Email = vm.Email,
-                DepartmentID = 1
+                DepartmentID=vm.ID
             };
+            var role = _roleManager.Roles.Where(r => r.Id == vm.Id).FirstOrDefault().ToString();
             var result = await _userManager.CreateAsync(user, vm.Password);
+          
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, role);
                 ViewBag.Email = user.Email;
                 return RedirectToAction("Index", "Account");
-
             }
-            ModelState.AddModelError("", "Xəta baş verdi , zəhmət olmasa yenidən yoxlayın");
+            else
+            {
+              
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                    return View(vm);
+                }
+            }
             return View(vm);
+            //ModelState.AddModelError("", "Xəta baş verdi , zəhmət olmasa yenidən yoxlayın");
+            
         }
         #endregion
         #region Logout
@@ -429,6 +459,212 @@ namespace UI.Controllers
             return View();
         }
         #endregion
+        public IActionResult UserList()
+        {
+            var users = _userService.GetAllUsers();
+            return View(users);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            AppUser user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                IdentityResult result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    TempData["UserDeleted"] =id+ " nömrəli istifadəçi uğurla silindi";
+                }
+                else {
+                    return NotFound();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "İstifadəçi tapılmadı");
+            }
+            return RedirectToAction("Userlist","Account");
+        }
+        [Authorize(Roles ="Admin")]
+        public IActionResult DepartmentList()
+        {
+            var departments = _departmentService.GetAll();
+            return View(departments);
+        }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult CreateDepartment()
+        {
+            return View();
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+
+
+        public IActionResult CreateDepartment(Department department)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                    department = _departmentService.Create(department);
+                    TempData["NewDepartment"] = "Şöbə uğurla yaradıldı";
+                    return RedirectToAction("DepartmentList","Account");
+
+               
+            }
+            return View(department);
+        }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+
+
+        public IActionResult UpdateDepartment(int id)
+        {
+            Department department = _departmentService.GetByID(id);
+            return View(department);
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult UpdateDepartment([Bind("ID,DepName,CreatedDate")] Department department)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    department = _departmentService.Update(department);
+                    TempData["EditDepartment"] = "Şöbə uğurla yeniləndi.";
+                    return RedirectToAction("DepartmentList", "Account");
+                }
+                catch
+                {
+
+                }
+
+            }
+            return View(department);
+        }
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult DeleteDepartment(int id)
+        {
+            Department department = _departmentService.GetByID(id);
+            try
+            {
+                var deletedDepartment = _departmentService.Delete(department);
+                TempData["DeleteDepartment"] = "Şöbə uğurla silindi";
+                return RedirectToAction("DepartmentList", "Account");
+
+            }
+            catch
+            {
+
+            }
+           
+            return RedirectToAction("DepartmentList","Account");
+        }
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult CategoryList()
+        {
+            var category = _feedbackCategoryService.GetCategories();
+            return View(category);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult CreateCategory()
+        {
+            ViewData["DepartmentID"] = new SelectList(_departmentService.GetAll(), "ID", "DepName");
+            return View();
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult CreateCategory(FeedbackCategories feedbackCategories)
+        {
+            if (ModelState.IsValid)
+            {
+
+                try
+                {
+
+                    feedbackCategories = _feedbackCategoryService.Create(feedbackCategories);
+                    TempData["CategorySuccess"] = "Kateqoriya uğurla yaradıldı.";
+                    return RedirectToAction("CategoryList","Account");
+
+                }
+                catch
+                {
+
+                }
+            }
+
+            ViewData["DepartmentID"] = new SelectList(_departmentService.GetAll(), "ID", "DepName");
+
+
+            return View(feedbackCategories);
+        }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult UpdateCategory(int id)
+        {
+            FeedbackCategories category= _feedbackCategoryService.GetCategory(id);
+            ViewData["DepartmentID"] = new SelectList(_departmentService.GetAll(), "ID", "DepName");
+
+            return View(category);
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult UpdateCategory([Bind("ID,CategoryName,DepartmentID,CreatedDate")] FeedbackCategories feedbackCategories)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    feedbackCategories = _feedbackCategoryService.Update(feedbackCategories);
+                    TempData["EditCategory"] = "Kateqoriya uğurla yeniləndi.";
+                    return RedirectToAction("CategoryList","Account");
+
+                }
+                catch
+                {
+
+                }
+
+            }
+            ViewData["DepartmentID"] = new SelectList(_departmentService.GetAll(), "ID", "DepName");
+
+            return View(feedbackCategories);
+
+        }
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult DeleteCategory(int id)
+        {
+            FeedbackCategories category = _feedbackCategoryService.GetCategory(id);
+            try
+            {
+                var deletedCategory = _feedbackCategoryService.Delete(category);
+                TempData["DeletedCategory"] = "Kateqoriya uğurla silindi";
+                return RedirectToAction("CategoryList", "Account");
+
+            }
+            catch
+            {
+
+            }
+
+            return RedirectToAction("CategoryList", "Account");
+        }
 
     }
 }

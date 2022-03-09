@@ -1,0 +1,33 @@
+﻿@model Department
+@{
+    ViewData["Title"] = "CreateDepartment";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-body p-9">
+    <form asp-controller="Account" asp-action="CreateDepartment" method="POST">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row mb-8">
+
+            <div class="col-xl-2">
+                <div class="fs-6 fw-bold mt-2 mb-3">Şöbə adı</div>
+            </div>
+
+            <div class="col-xl-4 fv-row fv-plugins-icon-container">
+                <input type="text" class="form-control form-control-solid" asp-for="DepName">
+                <span asp-validation-for="DepName" class="text-danger"></span>
+
+            </div>
+        </div>
+
+        <div class="row mb-8">
+            <div class="col-xl-9 fv-row fv-plugins-icon-container">
+                <button type="submit" class="btn btn-primary">Yarat</button>
+
+            </div>
+        </div>
+    </form>
+
+
+</div>
+

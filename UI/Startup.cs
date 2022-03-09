@@ -31,8 +31,10 @@ namespace UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddScoped<IDepartmentRepository, EFCoreDepartmentRepository>();
-            //services.AddScoped<IDepartmentService, DepartmentManager>();
+            services.AddScoped<IUserRepository, EFCoreUserRepository>();
+            services.AddScoped<IUserService, UserManager>();
+            services.AddScoped<IDepartmentRepository, EFCoreDepartmentRepository>();
+            services.AddScoped<IDepartmentService, DepartmentManager>();
             services.AddDbContext<BankDBContext>();
             services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<BankDBContext>().AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(options =>

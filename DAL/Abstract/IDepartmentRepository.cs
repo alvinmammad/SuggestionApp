@@ -9,6 +9,6 @@ namespace DAL.Abstract
 {
    public interface IDepartmentRepository:IGenericRepository<Department>
     {
-        
+       
     }
 }

@@ -14,7 +14,7 @@ namespace Entity
         public AppUser()
         {
             UserFeedbacks = new HashSet<UserFeedback>();
-            //AppUserRoles = new HashSet<AppUserRoles>();
+           
         }
         public string FirstName { get; set; }
         public string Surname { get; set; }
@@ -24,7 +24,6 @@ namespace Entity
 
         public  ICollection<UserFeedback> UserFeedbacks;
         public ICollection<AppUserRole> UserRoles { get; set; }
-        //public  ICollection<AppUserRoles> AppUserRoles;
 
 
     }

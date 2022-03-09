@@ -16,9 +16,37 @@ namespace Business.Concrete
         {
             _feedbackCategoryRepository = feedbackCategoryRepository;
         }
+
+        public FeedbackCategories Create(FeedbackCategories category)
+        {
+            return _feedbackCategoryRepository.Create(category);
+
+        }
+
+        public FeedbackCategories Delete(FeedbackCategories category)
+        {
+            return _feedbackCategoryRepository.Delete(category);
+
+        }
+
+        public List<FeedbackCategories> GetCategories()
+        {
+            return _feedbackCategoryRepository.GetCategories();
+        }
+
+        public FeedbackCategories GetCategory(int id)
+        {
+            return _feedbackCategoryRepository.GetCategory(id);
+        }
+
         public List<FeedbackCategories> GetFeedbackCategories()
         {
             return _feedbackCategoryRepository.GetAll();
+        }
+
+        public FeedbackCategories Update(FeedbackCategories category)
+        {
+            return _feedbackCategoryRepository.Update(category);
         }
     }
 }

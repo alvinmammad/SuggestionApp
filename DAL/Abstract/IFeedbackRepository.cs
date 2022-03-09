@@ -16,10 +16,9 @@ namespace DAL.Abstract
         UserFeedback GetHRFeedback(int id,int userID);
         UserFeedback CheckFeedbackNote(int id);
         UserFeedback CheckFeedbackNotePost(int FeedbackID, string secretaryNote);
-
         UserFeedback HRFeedbackDetails(string HRNote, int FeedbackID,int currentUserID);
-
         List<UserFeedback> HRFeedbackList(int currentUserID);
+        List<Department> GetUserDepartmentsList();
 
 
     }

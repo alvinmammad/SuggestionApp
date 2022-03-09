@@ -5,7 +5,11 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+@if (User.IsInRole("Employee")) { 
 
+    <h3>Siz hal-hazırda işçi vəzifəsindəsiniz.Sizə admin tərəfindən vəzifə təyin olunduqda vəzifənizin yerinə yetirə biləcəyi məlumatları görəcəksiniz.</h3>
+
+}
 <div class="post d-flex flex-column-fluid" id="kt_post">
     
     <div id="kt_content_container" class="container-xxl">

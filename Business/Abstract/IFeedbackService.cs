@@ -29,6 +29,8 @@ namespace Business.Abstract
         List<UserFeedback> HRFeedbackList(int currentUserID);
         UserFeedback CheckFeedbackNotePost(int FeedbackID, string secretaryNote);
 
+        List<Department> GetUserWithDepartments();
+
 
     }
 }
