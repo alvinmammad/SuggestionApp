@@ -17,6 +17,8 @@ using UI.Models;
 using UI.EmailService;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Business.ValidationRules;
+using FluentValidation.Results;
 
 namespace UI.Controllers
 {
@@ -28,19 +30,20 @@ namespace UI.Controllers
         private IUserService _userService;
         private IDepartmentService _departmentService;
         private IFeedbackCategoryService _feedbackCategoryService;
+        private IEmailSender _emailSender;
         private readonly BankDBContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
-        private IEmailSender _emailSender;
-        public AccountController(UserManager<AppUser> userManager,
+        public AccountController(
+                                BankDBContext context,
+                                UserManager<AppUser> userManager,
                                 SignInManager<AppUser> signInManager,
                                 RoleManager<AppRole> roleManager,
                                 IFeedbackService feedbackService,
                                 IUserService userService,
                                 IDepartmentService departmentService,
                                 IFeedbackCategoryService feedbackCategoryService,
-                                BankDBContext context,
                                 IEmailSender emailSender)
         {
             this._userManager = userManager;
@@ -314,7 +317,6 @@ namespace UI.Controllers
                 }
             }
             return View(vm);
-            //ModelState.AddModelError("", "Xəta baş verdi , zəhmət olmasa yenidən yoxlayın");
             
         }
         #endregion
@@ -508,16 +510,24 @@ namespace UI.Controllers
 
         public IActionResult CreateDepartment(Department department)
         {
-            if (ModelState.IsValid)
+            DepartmentValidator departmentValidator = new DepartmentValidator();
+            ValidationResult validationResult = departmentValidator.Validate(department);
+            if (validationResult.IsValid)
             {
                 
                     department = _departmentService.Create(department);
                     TempData["NewDepartment"] = "Şöbə uğurla yaradıldı";
                     return RedirectToAction("DepartmentList","Account");
-
-               
             }
-            return View(department);
+            else
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                return View(department);
+
+            }
         }
         [HttpGet]
         [Authorize(Roles = "Admin")]
@@ -533,7 +543,9 @@ namespace UI.Controllers
 
         public IActionResult UpdateDepartment([Bind("ID,DepName,CreatedDate")] Department department)
         {
-            if (ModelState.IsValid)
+            DepartmentValidator departmentValidator = new DepartmentValidator();
+            ValidationResult validationResult = departmentValidator.Validate(department);
+            if (validationResult.IsValid)
             {
                 try
                 {
@@ -546,6 +558,14 @@ namespace UI.Controllers
 
                 }
 
+            }
+            else
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                return View(department);
             }
             return View(department);
         }
@@ -589,7 +609,9 @@ namespace UI.Controllers
 
         public IActionResult CreateCategory(FeedbackCategories feedbackCategories)
         {
-            if (ModelState.IsValid)
+            FeedbackCategoryValidator categoryValidator = new FeedbackCategoryValidator();
+            ValidationResult validationResult = categoryValidator.Validate(feedbackCategories);
+            if (validationResult.IsValid)
             {
 
                 try
@@ -604,6 +626,16 @@ namespace UI.Controllers
                 {
 
                 }
+            }
+            else
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                ViewData["DepartmentID"] = new SelectList(_departmentService.GetAll(), "ID", "DepName");
+
+                return View(feedbackCategories);
             }
 
             ViewData["DepartmentID"] = new SelectList(_departmentService.GetAll(), "ID", "DepName");
@@ -626,7 +658,9 @@ namespace UI.Controllers
 
         public IActionResult UpdateCategory([Bind("ID,CategoryName,DepartmentID,CreatedDate")] FeedbackCategories feedbackCategories)
         {
-            if (ModelState.IsValid)
+            FeedbackCategoryValidator categoryValidator = new FeedbackCategoryValidator();
+            ValidationResult validationResult = categoryValidator.Validate(feedbackCategories);
+            if (validationResult.IsValid)
             {
                 try
                 {
@@ -640,6 +674,16 @@ namespace UI.Controllers
 
                 }
 
+            }
+            else
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                ViewData["DepartmentID"] = new SelectList(_departmentService.GetAll(), "ID", "DepName");
+
+                return View(feedbackCategories);
             }
             ViewData["DepartmentID"] = new SelectList(_departmentService.GetAll(), "ID", "DepName");
 

@@ -14,7 +14,7 @@ namespace DAL.Concrete.EFCore
         public List<FeedbackCategories> GetCategories()
         {
             using var c = new BankDBContext();
-            List<FeedbackCategories> feedbackCategories = c.FeedbackCategories.Include(fc => fc.Department).ToList();
+            List<FeedbackCategories> feedbackCategories = c.FeedbackCategories.Include(fc => fc.Department).OrderByDescending(fc=>fc.CreatedDate).ToList();
             return feedbackCategories;
         }
 

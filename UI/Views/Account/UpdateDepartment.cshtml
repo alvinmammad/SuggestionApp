@@ -16,7 +16,9 @@
 
             <div class="col-xl-4 fv-row fv-plugins-icon-container">
                 <input type="text" class="form-control form-control-solid" asp-for="DepName" value="@Model.DepName">
-                <span asp-validation-for="DepName" class="text-danger"></span>
+              
+                @Html.ValidationMessageFor(x => x.DepName)
+
 
             </div>
         </div>

@@ -15,7 +15,9 @@
 
             <div class="col-xl-4 fv-row fv-plugins-icon-container">
                 <input type="text" class="form-control form-control-solid" asp-for="CategoryName">
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+                @*<span asp-validation-for="CategoryName" class="text-danger"></span>*@
+                @Html.ValidationMessageFor(x => x.CategoryName)
+
 
             </div>
         </div>
@@ -25,8 +27,10 @@
                 <div class="fs-6 fw-bold mt-2 mb-3">Aid olduğu şöbə</div>
             </div>
             <div class="col-xl-4 fv-row fv-plugins-icon-container">
-                <select asp-for="DepartmentID" class="form-control" asp-items="ViewBag.DepartmentID"></select>  
-                <span asp-validation-for="DepartmentID" class="text-danger"></span>
+                <select asp-for="DepartmentID" class="form-control" asp-items="ViewBag.DepartmentID"></select>
+                @*<span asp-validation-for="DepartmentID" class="text-danger"></span>*@
+                @Html.ValidationMessageFor(x => x.DepartmentID)
+
 
             </div>
         </div>
