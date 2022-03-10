@@ -65,7 +65,7 @@ namespace DAL.Concrete.EFCore
             var feedback = c.UserFeedbacks
                 .Include(uf => uf.Feedback)
                 .ThenInclude(uf => uf.FeedbackCategory)
-                .Where(uf => uf.AppUserID == userID && uf.ID==id && (uf.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Pending ||uf.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Rejected))
+                .Where(uf => uf.AppUserID == userID && uf.ID==id && (uf.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.inProgress ||uf.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Rejected))
                 .FirstOrDefault();
             return feedback;
         }
@@ -115,7 +115,7 @@ namespace DAL.Concrete.EFCore
                .Include(uf => uf.Feedback)
                .ThenInclude(uf => uf.FeedbackCategory)
                .ThenInclude(uf => uf.Department)
-               .Where(uf => uf.AppUserID == currentUserID && (uf.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Pending || uf.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Rejected))
+               .Where(uf => uf.AppUserID == currentUserID && (uf.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.inProgress || uf.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Rejected))
                .ToList();
             return feedback;
         }

@@ -71,21 +71,28 @@
                                 <div class="fw-bolder mt-5 text-primary">Feedback</div>
                                 <div class="text-gray-800 fw-normal mb-5">@Model.Feedback.FeedbackDesc</div>
                                 <hr />
-                                @if (Model.SecretaryNote != null)
+                                @if (Model.HRNote != null)
                                 {
                                     <div class="fw-bolder mt-5 text-primary">@Model.Feedback.FeedbackCategory.Department.DepName HR feedbacki</div>
                                     <div class="text-gray-800 fw-normal mb-5">@Model.HRNote</div>
                                 }
+                                <hr />
 
-
-
-                            <div class="text-center">
-                                @if (Model.Feedback.EmailStatus != true)
+                                @if (Model.SecretaryNote != null)
                                 {
-                                    <a style="background :#0171C7" href="/account/SendFeedbackToCustomer/@Model.FeedbackID" class="btn btn-primary er fs-6 px-8 py-4 ">Müştəriyə göndər</a>
+                                    <div class="fw-bolder mt-5 text-primary">Katib feedbacki</div>
+                                    <div class="text-gray-800 fw-normal mb-5">@Model.SecretaryNote</div>
                                 }
-                                <a href="#" style="color:black" class="btn btn-warning er fs-6 px-8 py-4" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">Geri feedback</a>
-                            </div>
+
+
+
+                                <div class="text-center">
+                                    @if (Model.Feedback.EmailStatus != true)
+                                    {
+                                        <a style="background :#0171C7" href="/account/SendFeedbackToCustomer/@Model.FeedbackID" class="btn btn-primary er fs-6 px-8 py-4 ">Müştəriyə göndər</a>
+                                    }
+                                    <a href="#" style="color:black" class="btn btn-warning er fs-6 px-8 py-4" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">Geri feedback</a>
+                                </div>
                             </div>
                         </div>
 

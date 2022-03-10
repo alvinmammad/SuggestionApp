@@ -100,6 +100,11 @@
                                     <div class="fw-bolder mt-5 text-primary">Katibin feedbacki</div>
                                     <div class="text-gray-800 fw-normal mb-5">@Model.SecretaryNote</div>
                                 }
+                                @if (Model.HRNote != null)
+                                {
+                                    <div class="fw-bolder mt-5 text-primary">Sizin feedbackiniz</div>
+                                    <div class="text-gray-800 fw-normal mb-5">@Model.HRNote</div>
+                                }
 
                                 <div class="card-px text-center pt-20 pb-5">
                                     <a href="#" class="btn btn-primary er fs-6 px-8 py-4" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">Geri feedback</a>

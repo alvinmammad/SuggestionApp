@@ -72,12 +72,14 @@
                         </div>
                         <div class="fv-row mb-7">
                             <label class="form-label fw-bolder text-dark fs-6">Şöbə</label>
-                            <select asp-for="ID" class="form-control form-control-lg form-control-solid" asp-items="@ViewBag.DepartmentID">
+                            <select asp-for="DepartmentID" class="form-control form-control-lg form-control-solid" asp-items="@ViewBag.DepartmentID">
+                            <option>Şöbə seçin</option>
                             </select>
                         </div>
                         <div class="fv-row mb-7">
                             <label class="form-label fw-bolder text-dark fs-6">Vəzifə</label>
-                            <select asp-for="Id" class="form-control form-control-lg form-control-solid" asp-items="@ViewBag.RoleList">
+                            <select asp-for="RoleId" class="form-control form-control-lg form-control-solid" asp-items="@ViewBag.RoleList">
+                           
                             </select>
                         </div>
 

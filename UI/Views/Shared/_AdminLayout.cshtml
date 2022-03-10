@@ -62,7 +62,7 @@
                         {
                             <div class="menu-item">
                                 <a class="menu-link active" href="/account/index">
-                               
+
                                     <span class="menu-title">Feedbacklər</span>
                                 </a>
                             </div>
@@ -71,28 +71,41 @@
                         {
                             <div class="menu-item">
                                 <a class="menu-link" href="/account/rolelist">
-                                 
+
                                     <span class="menu-title">Vəzifələr</span>
                                 </a>
                             </div>
                             <div class="menu-item">
+                                <a class="menu-link" href="/account/departmentlist">
+
+                                    <span class="menu-title">Şöbələr</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
                                 <a class="menu-link" href="/account/categorylist">
-                                   
+
                                     <span class="menu-title">Kateqoriyalar</span>
                                 </a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link" href="/account/departmentlist">
-                                  
-                                    <span class="menu-title">Şöbələr</span>
+                                <a class="menu-link" href="/account/userlist">
+
+                                    <span class="menu-title">İstifadəçilər</span>
                                 </a>
                             </div>
+                            <div class="menu-item">
+                                <a class="menu-link" href="/account/register">
+
+                                    <span class="menu-title">İstifadəçi yarat</span>
+                                </a>
+                            </div>
+
                         }
                         @if (User.IsInRole("Admin") || User.IsInRole("HR"))
                         {
                             <div class="menu-item">
                                 <a class="menu-link" href="/account/hrfeedbacklist">
-                                 
+
                                     <span class="menu-title">HR feedbackləri</span>
                                 </a>
                             </div>

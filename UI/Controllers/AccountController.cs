@@ -63,13 +63,14 @@ namespace UI.Controllers
                .FirstOrDefault().Id;
             return currentUserID;
         }
-
+        //Get all feedbacks
         [Authorize(Roles ="Admin,Secretary")]
         public IActionResult Index()
         {
             var feedbacks = _feedbackService.GetFeedbacksWithCategory();
             return View(feedbacks);
         }
+        //Get feedback detail
         [Authorize(Roles = "Secretary")]
         public IActionResult FeedbackDetails(int id)
         {
@@ -85,7 +86,7 @@ namespace UI.Controllers
             return View(feedback);
         }
         [Authorize(Roles = "Secretary")]
-
+        // Send the feedback to the department to which it belongs
         public IActionResult SendToHR(int id)
         {
             if (id == 0)
@@ -108,14 +109,16 @@ namespace UI.Controllers
             UserFeedback userFeedback = new UserFeedback();
             userFeedback.FeedbackID = feedback.ID;
             userFeedback.AppUserID = user.Id;
+            feedback.FeedbackStatus= Entity.Enums.FeedbackStatus.inProgress;
             _context.UserFeedbacks.Add(userFeedback);
+            _context.Feedbacks.Update(feedback);
             _context.SaveChanges();
             TempData["SendToHRMessage"] = "Feedback müvafiq şöbənin HR-ına göndərildi!";
             return RedirectToAction("index", "account");
         }
         [HttpGet]
         [Authorize(Roles = "Secretary")]
-
+        //Check feedback which sended from HR (GET)
         public IActionResult CheckFeedbackNote(int id)
         {
             if (id == 0)
@@ -125,6 +128,7 @@ namespace UI.Controllers
             var feedback = _feedbackService.CheckFeedbackNote(id);
             return View(feedback);
         }
+        //Check feedback which sended from HR (POST)
 
         [HttpPost]
         [Authorize(Roles = "Secretary")]
@@ -142,7 +146,7 @@ namespace UI.Controllers
             return RedirectToAction("Index", "Account");
         }
         [Authorize(Roles = "Secretary")]
-
+        //Send approved feedback to customer
         public async Task<IActionResult> SendFeedbackToCustomer(int id)
         {
             if (id == 0)
@@ -150,34 +154,37 @@ namespace UI.Controllers
                 return NotFound();
             }
             var customer = _feedbackService.GetCustomer(id);
-            if (customer.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.inProgress)
-            {
-                customer.Feedback.FeedbackStatus = Entity.Enums.FeedbackStatus.Approved;
-
-            }
+           
             try
             {
                 await _emailSender.SendEmailAsync(customer.Feedback.CustomerEmail, "Feedback cavabı", customer.HRNote);
+                if (customer.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.inProgress)
+                {
+                    customer.Feedback.FeedbackStatus = Entity.Enums.FeedbackStatus.Approved;
+
+                }
+                TempData["EmailSended"] = customer.FeedbackID + " ID nömrəli feedback sahibinə mail vasitəsilə göndərildi";
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 TempData["MailException"] = e.Message;
             }
             customer.Feedback.EmailStatus = true;
             _context.Feedbacks.Update(customer.Feedback);
             _context.SaveChanges();
-            TempData["EmailSended"] = customer.FeedbackID + " ID nömrəli feedback sahibinə mail vasitəsilə göndərildi";
             return RedirectToAction("Index", "Account");
         }
 
         [Authorize(Roles ="Admin,HR")]
+        //Feedback list for HR-s
         public IActionResult HRFeedbackList()
         {
             var currentUserID = GetCurrentUserID(User.Identity.Name);
             var feedback = _feedbackService.HRFeedbackList(currentUserID);
             return View(feedback);
         }
+        //Feedback detail for HR (GET)
         [HttpGet]
         [Authorize(Roles = "HR")]
 
@@ -196,6 +203,7 @@ namespace UI.Controllers
             }
             return View(feedback);
         }
+        //Feedback detail for HR (POST)
 
         [HttpPost]
         [Authorize(Roles = "HR")]
@@ -213,6 +221,7 @@ namespace UI.Controllers
             return RedirectToAction("HRFeedbackList", "Account");
             
         }
+        //Delete feedback (only Secretary can delete feedback !)
         [Authorize(Roles ="Secretary")]
         public IActionResult DeleteFeedback(int id)
         {
@@ -296,15 +305,16 @@ namespace UI.Controllers
                 Surname = vm.Surname,
                 UserName = vm.UserName,
                 Email = vm.Email,
-                DepartmentID=vm.ID
+                DepartmentID=vm.DepartmentID
             };
-            var role = _roleManager.Roles.Where(r => r.Id == vm.Id).FirstOrDefault().ToString();
+            var role = _roleManager.Roles.Where(r => r.Id == vm.RoleId).FirstOrDefault().ToString();
             var result = await _userManager.CreateAsync(user, vm.Password);
           
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, role);
                 ViewBag.Email = user.Email;
+                TempData["NewUser"] = "İstifadəçi uğurla yaradıldı";
                 return RedirectToAction("Index", "Account");
             }
             else
@@ -313,9 +323,13 @@ namespace UI.Controllers
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
+                    ViewData["DepartmentID"] = new SelectList(_feedbackService.GetUserWithDepartments(), "ID", "DepName");
+                    ViewData["RoleList"] = new SelectList(_roleManager.Roles, "Id", "Name");
                     return View(vm);
                 }
             }
+            ViewData["DepartmentID"] = new SelectList(_feedbackService.GetUserWithDepartments(), "ID", "DepName");
+            ViewData["RoleList"] = new SelectList(_roleManager.Roles, "Id", "Name");
             return View(vm);
             
         }

@@ -35,8 +35,8 @@ namespace UI.Models
         [Compare("Password")]
         public string RePassword { get; set; }
 
-       public int ID { get; set; }
-        public int Id { get; set; }
+       public int DepartmentID { get; set; }
+       public int RoleId { get; set; }
 
         //public List<Department> Departments { get; set; } 
 

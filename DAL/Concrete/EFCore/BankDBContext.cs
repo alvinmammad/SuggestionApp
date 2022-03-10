@@ -72,6 +72,12 @@ IdentityRoleClaim<int>, IdentityUserToken<int>>
                     .WithMany(r => r.UserRoles)
                     .HasForeignKey(ur => ur.UserId);
             });
+            builder.Entity<UserFeedback>()
+               .HasOne(fc => fc.Feedback)
+               .WithMany(f => f.UserFeedbacks);
+            builder.Entity<Feedback>()
+              .HasMany(fc => fc.UserFeedbacks)
+              .WithOne(f => f.Feedback);
         }
 
     }
