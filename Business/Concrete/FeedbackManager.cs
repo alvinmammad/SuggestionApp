@@ -48,6 +48,11 @@ namespace Business.Concrete
             return _feedbackRepository.GetCustomer(id);
         }
 
+        public Feedback GetFeedbackByID(int id)
+        {
+            return _feedbackRepository.GetFeedbackByID(id);
+        }
+
         public List<Feedback> GetFeedbacksWithCategory()
         {
             return _feedbackRepository.GetFeedbacksWithCategory();

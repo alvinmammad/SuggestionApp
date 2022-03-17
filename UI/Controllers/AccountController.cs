@@ -81,9 +81,18 @@ namespace UI.Controllers
             var feedback = _feedbackService.CheckFeedbackNote(id);
             if (feedback == null)
             {
-                return NotFound();
+                var onlyFeedback = _feedbackService.GetFeedbackByID(id);
+                var vm = new FeedbackDetailVM
+                {
+                    feedback=onlyFeedback
+                };
+                return View(vm);
             }
-            return View(feedback);
+            var newVM = new FeedbackDetailVM()
+            {
+                userFeedback = feedback
+            };
+            return View(newVM);
         }
         [Authorize(Roles = "Secretary")]
         // Send the feedback to the department to which it belongs

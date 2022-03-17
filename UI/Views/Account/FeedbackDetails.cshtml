@@ -1,41 +1,60 @@
-﻿@model UserFeedback
+﻿@model FeedbackDetailVM
 @{
     ViewData["Title"] = "FeedbackDetails";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="post d-flex flex-column-fluid" id="kt_post">
- 
+
     <div id="kt_content_container" class="container-xxl">
-       
+
         <div class="d-flex flex-column flex-xl-row" style="justify-content: center;">
-           
+
             <div class="flex-column flex-lg-row-auto w-100 w-xl-600px mb-10">
-            
+
                 <div class="card mb-5 mb-xl-8">
-                  
+
                     <div class="card-body">
-                     
+
                         <div class="d-flex flex-center flex-column py-5">
-                            
-                            @if (Model.Feedback.FeedbackFile != null)
+                            @if (Model.feedback == null)
                             {
-                                <div class="symbol symbol-100px symbol-circle mb-7">
-                                    <img src="~/img/@Model.Feedback.FeedbackFile" alt="image">
-                                </div>
+                                @if (Model.userFeedback.Feedback.FeedbackFile != null)
+                                {
+                                    <div class="symbol symbol-100px symbol-circle mb-7">
+                                        <img src="~/img/@Model.userFeedback.Feedback.FeedbackFile" alt="image">
+                                    </div>
+                                }
+
+                                else if (Model.feedback.FeedbackFile != null)
+                                {
+                                    <div class="symbol symbol-100px symbol-circle mb-7">
+                                        <img src="~/img/@Model.feedback.FeedbackFile" alt="image">
+                                    </div>
+                                }
                             }
 
-                          
-                            <span href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-3">@Model.Feedback.FeedbackCategory.CategoryName</span>
-                          
+
+
+                            @if (Model.feedback == null)
+                            {
+                                <span href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-3">@Model.userFeedback.Feedback.FeedbackCategory.CategoryName</span>
+
+                            }
+                            else if (Model.userFeedback == null)
+                            {
+                                <span href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-3">@Model.feedback.FeedbackCategory.CategoryName</span>
+
+                            }
+
                             <div class="mb-9">
-                               
+
                                 <div class="badge badge-lg badge-light-primary d-inline">Müştəri feedback`i</div>
-                                
+
                             </div>
-                          
+
                         </div>
-                        
+
                         <div class="d-flex flex-stack fs-4 py-3">
                             <div class="fw-bolder rotate collapsible" data-bs-toggle="collapse" href="#kt_user_view_details" role="button" aria-expanded="true" aria-controls="kt_user_view_details">
                                 Detallı
@@ -55,59 +74,161 @@
                         <div id="kt_user_view_details" class="collapse show" style="">
                             <div class="pb-5 fs-6">
                                 @{
-                                    var statusAZ="";
+                                    var statusAZ = "";
                                     var badgeColor = "";
                                 }
-                                @if (Model.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.inProgress)
+
+                                @if (Model.feedback == null)
                                 {
-                                    statusAZ = "İcrada";
-                                    badgeColor = "badge-light-warning";
+                                    if (Model.userFeedback.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.inProgress)
+                                    {
+                                        statusAZ = "İcrada";
+                                        badgeColor = "badge-light-warning";
+                                    }
+                                    if (Model.userFeedback.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Pending)
+                                    {
+                                        statusAZ = "Gözləmədə";
+                                        badgeColor = "badge-light";
+                                    }
+                                    if (Model.userFeedback.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Approved)
+                                    {
+                                        statusAZ = "Təsdiqləndi";
+                                        badgeColor = "badge-light-success";
+                                    }
+                                    if (Model.userFeedback.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Rejected)
+                                    {
+                                        statusAZ = "Ləğv edildi";
+                                        badgeColor = "badge-light-danger";
+                                    }
                                 }
-                                @if (Model.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Pending)
+                                else if (Model.userFeedback == null)
                                 {
-                                    statusAZ = "Gözləmədə";
-                                    badgeColor = "badge-light";
-
-                                } @if (Model.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Approved)
-                                {
-                                    statusAZ = "Təsdiqləndi";
-                                    badgeColor = "badge-light-success";
-
-                                } @if (Model.Feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Rejected)
-                                {
-                                    statusAZ = "Ləğv edildi";
-                                    badgeColor = "badge-light-danger";
-
+                                    if (Model.feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.inProgress)
+                                    {
+                                        statusAZ = "İcrada";
+                                        badgeColor = "badge-light-warning";
+                                    }
+                                    if (Model.feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Pending)
+                                    {
+                                        statusAZ = "Gözləmədə";
+                                        badgeColor = "badge-light";
+                                    }
+                                    if (Model.feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Approved)
+                                    {
+                                        statusAZ = "Təsdiqləndi";
+                                        badgeColor = "badge-light-success";
+                                    }
+                                    if (Model.feedback.FeedbackStatus == Entity.Enums.FeedbackStatus.Rejected)
+                                    {
+                                        statusAZ = "Ləğv edildi";
+                                        badgeColor = "badge-light-danger";
+                                    }
                                 }
+                                
                                 <div class="fw-bolder mt-5 text-primary">Müştəri ID</div>
-                                <div class="text-gray-800 fw-normal mb-5">ID - @Model.Feedback.ID</div>
+                                @if (Model.feedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5">ID - @Model.userFeedback.Feedback.ID</div>
+
+                                }
+                                else if (Model.userFeedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5">ID - @Model.feedback.ID</div>
+
+                                }
+
+
+
+
 
                                 <div class="fw-bolder mt-5 text-primary">Ad soyad</div>
-                                <div class="text-gray-800 fw-normal mb-5">@Model.Feedback.CustomerName @Model.Feedback.CustomerSurname</div>
+                                @if (Model.feedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5">@Model.userFeedback.Feedback.CustomerName @Model.userFeedback.Feedback.CustomerSurname</div>
+
+                                }
+                                else if (Model.userFeedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5">@Model.feedback.CustomerName @Model.feedback.CustomerSurname</div>
+
+                                }
+
 
                                 <div class="fw-bolder mt-5 text-primary">E-poçt adresi</div>
-                                <div class="text-gray-800 fw-normal mb-5">@Model.Feedback.CustomerEmail</div>
+                                @if (Model.feedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5">@Model.userFeedback.Feedback.CustomerEmail</div>
+
+                                }
+                                else if (Model.userFeedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5">@Model.feedback.CustomerEmail</div>
+
+                                }
+
+
 
                                 <div class="fw-bolder mt-5 text-primary">Tarix</div>
-                                <div class="text-gray-800 fw-normal mb-5">@Model.Feedback.CreatedDate</div>
+                                @if (Model.feedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5">@Model.userFeedback.Feedback.CreatedDate</div>
+
+                                }
+                                else if (Model.userFeedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5">@Model.feedback.CreatedDate</div>
+
+                                }
+
+
 
                                 <div class="fw-bolder mt-5 text-primary">Feedback statusu</div>
-                                <div class="text-gray-800 fw-normal mb-5 badge badge-lg @badgeColor">@statusAZ</div>
+
+                                @if (Model.feedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5 badge badge-lg @badgeColor">@statusAZ</div>
+
+                                }
+                                else if (Model.userFeedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5 badge badge-lg @badgeColor">@statusAZ</div>
+
+                                }
+
+
 
                                 <div class="fw-bolder mt-5 text-primary">Feedback</div>
-                                <div class="text-gray-800 fw-normal mb-5">@Model.Feedback.FeedbackDesc</div>
+                                @if (Model.feedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5">@Model.userFeedback.Feedback.FeedbackDesc</div>
+
+                                }
+                                else if (Model.userFeedback == null)
+                                {
+                                    <div class="text-gray-800 fw-normal mb-5">@Model.feedback.FeedbackDesc</div>
+
+                                }
                                 <hr />
 
-                                @if (Model.SecretaryNote != null)
+                                @if (Model.feedback == null)
                                 {
-                                    <div class="fw-bolder mt-5 text-primary">@Model.Feedback.FeedbackCategory.Department.DepName HR feedbacki</div>
-                                    <div class="text-gray-800 fw-normal mb-5">@Model.HRNote</div>
+                                    @if (Model.userFeedback.SecretaryNote != null)
+                                    {
+                                        <div class="fw-bolder mt-5 text-primary">@Model.userFeedback.Feedback.FeedbackCategory.Department.DepName HR feedbacki</div>
+                                        <div class="text-gray-800 fw-normal mb-5">@Model.userFeedback.HRNote</div>
+                                    }
+                                    @if (Model.userFeedback.HRNote != null)
+                                    {
+                                        <div class="fw-bolder mt-5 text-primary">Geri feedback-iniz</div>
+                                        <div class="text-gray-800 fw-normal mb-5">@Model.userFeedback.SecretaryNote</div>
+                                    }
                                 }
-                                @if (Model.HRNote != null)
+                                else if (Model.userFeedback == null)
                                 {
-                                    <div class="fw-bolder mt-5 text-primary">Geri feedback-iniz</div>
-                                    <div class="text-gray-800 fw-normal mb-5">@Model.SecretaryNote</div>
+
                                 }
+
+
                             </div>
                         </div>
 

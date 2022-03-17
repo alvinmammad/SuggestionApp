@@ -20,6 +20,8 @@ namespace DAL.Abstract
         List<UserFeedback> HRFeedbackList(int currentUserID);
         List<Department> GetUserDepartmentsList();
 
+        Feedback GetFeedbackByID(int id);
+
 
     }
 }

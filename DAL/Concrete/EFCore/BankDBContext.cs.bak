@@ -44,6 +44,14 @@ IdentityRoleClaim<int>, IdentityUserToken<int>>
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            //builder
+            //    .Entity<Feedback>()
+            //    .Property(e => e.FeedbackStatus)
+            //    .HasConversion(
+            //     v => Convert.ToInt32(v),
+            //     v => (FeedbackStatus)Enum.Parse(typeof(FeedbackStatus), v));
+
             builder.Entity<Feedback>()
                 .HasOne(f => f.FeedbackCategory)
                 .WithMany(fc => fc.Feedbacks);

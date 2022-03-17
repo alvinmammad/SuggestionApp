@@ -165,23 +165,28 @@
                                                
                                                 @if (User.Identity.IsAuthenticated)
                                                 {
-                                                   
-                                                        var role = "";
-                                                   
-                                                        if (User.IsInRole("Admin"))
-                                                        {
-                                                            role = "Admin";
-                                                        }
-                                                        else if (User.IsInRole("HR"))
-                                                        {
-                                                            role = "HR";
 
-                                                        }
-                                                        else if (User.IsInRole("Secretary"))
-                                                        {
-                                                            role = "Secretary";
+                                                    var role = "";
 
-                                                        }
+                                                    if (User.IsInRole("Admin"))
+                                                    {
+                                                        role = "Admin";
+                                                    }
+                                                    else if (User.IsInRole("HR"))
+                                                    {
+                                                        role = "HR";
+
+                                                    }
+                                                    else if (User.IsInRole("Secretary"))
+                                                    {
+                                                        role = "Katib";
+
+                                                    }
+                                                    else if (User.IsInRole("Employee"))
+                                                    {
+                                                        role = "İşçi";
+
+                                                    }
 
                                                     <div class="d-flex flex-column">
                                                         <div class="fw-bolder d-flex align-items-center fs-5">

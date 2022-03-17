@@ -31,6 +31,8 @@ namespace Business.Abstract
 
         List<Department> GetUserWithDepartments();
 
+        Feedback GetFeedbackByID(int id);
+
 
     }
 }

@@ -11,6 +11,10 @@ namespace DAL.Concrete.EFCore
 {
     public class EFCoreFeedbackRepository : EFCoreGenericRepository<Feedback, BankDBContext>, IFeedbackRepository
     {
+
+
+
+
         public UserFeedback CheckFeedbackNote(int id)
         {
             using var c = new BankDBContext();
@@ -40,6 +44,12 @@ namespace DAL.Concrete.EFCore
             using var c = new BankDBContext();
             var customer = c.UserFeedbacks.Include(f => f.Feedback).Where(f => f.Feedback.ID == id).AsNoTracking().FirstOrDefault();
             return customer;
+        }
+
+        public Feedback GetFeedbackByID(int id)
+        {
+            using var c = new BankDBContext();
+            return c.Feedbacks.Include(f=>f.FeedbackCategory).Where(f => f.ID == id).FirstOrDefault();
         }
 
         public List<Feedback> GetFeedbacksWithCategory()
