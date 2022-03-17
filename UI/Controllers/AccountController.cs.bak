@@ -95,7 +95,7 @@ namespace UI.Controllers
             return View(newVM);
         }
         [Authorize(Roles = "Secretary")]
-        // Send the feedback to the department which it belongs
+        // Send the feedback to the department to which it belongs
         public IActionResult SendToHR(int id)
         {
             if (id == 0)
