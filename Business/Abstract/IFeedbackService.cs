@@ -10,9 +10,7 @@ namespace Business.Abstract
     public interface IFeedbackService
     {
         Feedback GetByID(int id);
-       
         void Create(Feedback t);
-       
         void Delete(Feedback t);
         AppUser GetHRRole(int id);
 
